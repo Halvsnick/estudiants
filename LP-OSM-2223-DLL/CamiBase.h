@@ -3,7 +3,7 @@
 #include "Common.h"
 #include <vector>
 
-class CamiBase {
+class CamiBase {  //clase virutal pura
 	public:
 		virtual std::vector<Coordinate> getCamiCoords() = 0;
 };
