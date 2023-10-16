@@ -8,7 +8,8 @@ using namespace std;
 
 class PuntInteresBotiga : public PuntDeInteresBase {
 public:
-	PuntInteresBotiga() : m_shopTag("") {};
+
+	PuntInteresBotiga() : m_shopTag(""), m_wheelchair(false) {}; 
 
 	//contructor per parametres
 	PuntInteresBotiga(Coordinate coord, string name, const string& shopTag, bool wheelchair) :
