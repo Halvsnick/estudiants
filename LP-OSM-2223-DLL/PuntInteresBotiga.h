@@ -3,6 +3,9 @@
 #include "Common.h"
 #include <string>
 
+using namespace std;
+
+
 class PuntInteresBotiga : public PuntDeInteresBase {
 public:
     PuntInteresBotiga(Coordinate coord, std::string name, unsigned int color);

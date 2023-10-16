@@ -4,6 +4,8 @@
 #include <vector>
 #include "CamiBase.h"
 
+using namespace std;
+
 
 class CamiSolucio : public CamiBase {
 public:
@@ -16,8 +18,8 @@ std::vector<Coordinate> CamiSolucio::getCamiCoords(int caminoSeleccionado) {
     std::vector<Coordinate> coordenadas;
 
     // Por ejemplo, si caminoSeleccionado es 0, procesaríamos el primer camino en xmlElements.
-    if (caminoSeleccionado >= 0 && caminoSeleccionado < xmlElements.size()) {
-        const XmlElement& elemento = xmlElements[caminoSeleccionado];
+    if (caminoSeleccionado >= 0 && caminoSeleccionado < XmlElement.size()) {
+        const XmlElement& elemento = XmlElement[caminoSeleccionado];
 
         for (const auto& atributo : elemento.atributs) {
             if (atributo.first == "lat") {
@@ -40,7 +42,7 @@ std::vector<Coordinate> CamiSolucio::getCamiCoords(int caminoSeleccionado) {
 std::vector<std::vector<Coordinate>> CamiSolucio::getCamins() {
     std::vector<std::vector<Coordinate>> caminos;
 
-    for (const auto& elemento : xmlElements) {
+    for (const auto& elemento : XmlElement) {
         std::vector<Coordinate> coordenadas;
 
         for (const auto& atributo : elemento.atributs) {
