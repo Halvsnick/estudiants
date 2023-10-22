@@ -4,14 +4,14 @@
 #include "PuntDeInteresBase.h"
 #include "Common.h"
 #include <string>
+#include "pch.h"
 #include <vector>
 #include "PuntInteresBotiga.h"
 #include "PuntInteresRestaurant.h"
 
 using namespace std;
 
-class MapaSolucio : public MapaBase
-{
+class MapaSolucio : public MapaBase {
 private:
 
     
@@ -30,25 +30,20 @@ public:
 		coord.lat = 41.4933070;
 		coord.lon = 2.1453852;
 
-		PuntDeInteresBase* newShop = new PuntDeInteresBase(coord, name);
-
-		PuntInteresBotiga* newShop = new PuntInteresBotiga(coord, name, shopTag, wheelchair);
-
+		PuntDeInteresBase* newShop = new PuntInteresBotiga(coord, name, shopTag, wheelchair);
+			
 		// crear EL RESTAURANT 
 
 		string TypeCuisine = "regional";
-		string latitud = "41.4902204";
-		string longitud = "2.1406477";
-		std::string name = "El Millor Restaurant";
-		bool wheelchair = true;
+		latitud = "41.4902204";
+		longitud = "2.1406477";
+		name = "El Millor Restaurant";
+		wheelchair = true;
 
-		Coordinate coord;
 		coord.lat = 41.4933070;
 		coord.lon = 2.1453852;
 
-		PuntDeInteresBase* newShop = new PuntDeInteresBase(coord, name);
-
-		PuntInteresRestaurant* newShop = new PuntInteresRestaurant(coord, name, TypeCuisine, wheelchair);
+		newShop = new PuntInteresRestaurant(coord, name, TypeCuisine, wheelchair);
 	}
 
 };

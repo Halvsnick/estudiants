@@ -1,6 +1,5 @@
 #pragma once
 #include "pch.h"
-
 #include "Common.h"
 #include "PuntDeInteresBase.h"
 #include "CamiBase.h"
