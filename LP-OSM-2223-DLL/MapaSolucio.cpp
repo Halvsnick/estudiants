@@ -51,6 +51,6 @@ public:
 		newShop = new PuntInteresRestaurant(coord, name, TypeCuisine, wheelchair);
 	}
 	
-	void getCamins(std::vector<CamiBase*>&);
-	void parsejaXmlElements(std::vector<XmlElement>& xmlElements);
+	void getCamins(std::vector<CamiBase*>&) {}
+	void parsejaXmlElements(std::vector<XmlElement>& xmlElements) {}
 };
