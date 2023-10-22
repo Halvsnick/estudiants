@@ -15,11 +15,17 @@ public:
 */
 //////////////////////////////////////////////////////////////////////
 #include "Common.h"
+#include "CamiBase.h"
 #include <vector>
 
-class CamiSolucio {
+class CamiSolucio : public CamiBase {
 public:
     std::vector<Coordinate> getCamiCoords();
+
+    void getCamins(std::vector<CamiBase*>& caminos) {
+        // Crea una instancia de CamiSolucio y agrega el camino al vector
+        caminos.push_back(new CamiSolucio());
+    }
 };
 
 std::vector<Coordinate> CamiSolucio::getCamiCoords() {
@@ -33,6 +39,8 @@ std::vector<Coordinate> CamiSolucio::getCamiCoords() {
 
     return coordenadas;
 }
+
+
 /////////////////////////////////////////////////////////////////////////
 
 
