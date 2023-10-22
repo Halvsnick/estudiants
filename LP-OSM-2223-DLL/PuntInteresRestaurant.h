@@ -11,7 +11,7 @@ public:
 	PuntInteresRestaurant() : m_typeCuisine(""), m_wheelchair(false) {};
 
 	//contructor per parametres
-	PuntInteresRestaurant(Coordinate coord, string name, unsigned int color, const string&typeCuisine, bool wheelchair) : 
+	PuntInteresRestaurant(Coordinate coord, string name, const string&typeCuisine, bool wheelchair) : 
 		PuntDeInteresBase(coord, name) { m_typeCuisine = typeCuisine; m_wheelchair = wheelchair;};
 
 	unsigned int getColor()

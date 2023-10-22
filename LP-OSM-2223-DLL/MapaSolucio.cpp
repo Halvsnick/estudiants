@@ -1,10 +1,12 @@
 #pragma once
+#include "MapaBase.h"
+#include "XML4OSMUtil.h"
 #include "PuntDeInteresBase.h"
 #include "Common.h"
 #include <string>
-#include "MapaBase.h"
 #include <vector>
-#include "CamiBase.h"
+#include "PuntInteresBotiga.h"
+#include "PuntInteresRestaurant.h"
 
 using namespace std;
 
@@ -15,12 +17,38 @@ private:
     
 public:
 
-    void getPdis(std::vector<PuntDeInteresBase*>&)
-    {
-        //fata fer
-    }
-    void getCamins(std::vector<CamiBase*>&)
-    {
-        //falta fer
-    }
+	void getPdis(std::vector<PuntDeInteresBase*>&)
+	{
+		// crear LA BOTIGA 
+		string shopTag = "bakery";
+		string latitud = "41.4918606";
+		string longitud = "2.1465411";
+		std::string name = "La Millor Pastisseria";
+		bool wheelchair = true;
+
+		Coordinate coord;
+		coord.lat = 41.4933070;
+		coord.lon = 2.1453852;
+
+		PuntDeInteresBase* newShop = new PuntDeInteresBase(coord, name);
+
+		PuntInteresBotiga* newShop = new PuntInteresBotiga(coord, name, shopTag, wheelchair);
+
+		// crear EL RESTAURANT 
+
+		string TypeCuisine = "regional";
+		string latitud = "41.4902204";
+		string longitud = "2.1406477";
+		std::string name = "El Millor Restaurant";
+		bool wheelchair = true;
+
+		Coordinate coord;
+		coord.lat = 41.4933070;
+		coord.lon = 2.1453852;
+
+		PuntDeInteresBase* newShop = new PuntDeInteresBase(coord, name);
+
+		PuntInteresRestaurant* newShop = new PuntInteresRestaurant(coord, name, TypeCuisine, wheelchair);
+	}
+
 };
