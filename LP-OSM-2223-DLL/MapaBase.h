@@ -13,7 +13,7 @@ class MapaBase {
 		virtual void parsejaXmlElements(std::vector<XmlElement>& xmlElements) = 0;
 
 	private: 
-
+	
 };
 
 

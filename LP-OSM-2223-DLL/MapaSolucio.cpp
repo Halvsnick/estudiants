@@ -8,6 +8,8 @@
 #include <vector>
 #include "PuntInteresBotiga.h"
 #include "PuntInteresRestaurant.h"
+#include "CamiSolució.h"
+#include "CamiBase.h"
 
 using namespace std;
 
@@ -48,5 +50,7 @@ public:
 
 		newShop = new PuntInteresRestaurant(coord, name, TypeCuisine, wheelchair);
 	}
-
+	
+	void getCamins(std::vector<CamiBase*>&);
+	void parsejaXmlElements(std::vector<XmlElement>& xmlElements);
 };
