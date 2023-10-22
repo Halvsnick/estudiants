@@ -14,6 +14,9 @@ using namespace std;
 class MapaSolucio : public MapaBase {
 private:
 
+	PuntInteresBotiga shop; 
+	PuntInteresRestaurant restaurant;
+	Coordinate coord; 
     
 public:
 
