@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include "Common.h"
 #include <vector>
 #include "CamiBase.h"
@@ -12,7 +12,7 @@ public:
     std::vector<Coordinate> getCamiCoords(int caminoSeleccionado); // Agafa les coordenades d'un camí específic
     std::vector<std::string> getCamins();  // Agafa tots els camins
 };
-
+*/
 //////////////////////////////////////////////////////////////////////
 #include "Common.h"
 #include <vector>
@@ -36,7 +36,7 @@ std::vector<Coordinate> CamiSolucio::getCamiCoords() {
 /////////////////////////////////////////////////////////////////////////
 
 
-
+/*
 std::vector<Coordinate> CamiSolucio::getCamiCoords(int caminoSeleccionado) {
     std::vector<Coordinate> coordenadas;
 
@@ -89,5 +89,5 @@ std::vector<std::vector<Coordinate>> CamiSolucio::getCamins() {
 
     return caminos;
 }
-
+*/
 
