@@ -8,6 +8,7 @@
     <RootNamespace>LP_OSM_2223_WPF</RootNamespace>
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
 
     <ItemGroup>

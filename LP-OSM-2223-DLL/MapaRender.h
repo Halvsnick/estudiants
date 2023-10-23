@@ -5,7 +5,6 @@
 #include <string>
 #include <iostream>
 #include "Common.h"
-
 #include "MapaBase.h"
 #include "XML4OSMUtil.h"
 

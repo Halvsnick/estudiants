@@ -1,6 +1,5 @@
 #pragma once
 #include "pch.h"
-
 #include "Common.h"
 #include "PuntDeInteresBase.h"
 #include "CamiBase.h"
@@ -13,7 +12,10 @@ class MapaBase {
 		virtual void getCamins(std::vector<CamiBase*>&) = 0;
 		virtual void parsejaXmlElements(std::vector<XmlElement>& xmlElements) = 0;
 
+	private: 
+	
 };
+
 
 
 
