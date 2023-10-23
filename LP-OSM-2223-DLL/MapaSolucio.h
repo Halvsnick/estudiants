@@ -16,13 +16,13 @@ using namespace std;
 class MapaSolucio : public MapaBase {
 private:
 
-	PuntInteresBotiga shop; 
+	PuntInteresBotiga shop;
 	PuntInteresRestaurant restaurant;
-	Coordinate coord; 
-    
+	Coordinate coord;
+
 public:
 
-	void getPdis(std::vector<PuntDeInteresBase*>&)
+	void getPdis(std::vector<PuntDeInteresBase*>& pdis)
 	{
 		// crear LA BOTIGA 
 		string shopTag = "bakery";
@@ -36,7 +36,9 @@ public:
 		coord.lon = 2.1453852;
 
 		PuntDeInteresBase* newShop = new PuntInteresBotiga(coord, name, shopTag, wheelchair);
-			
+
+		pdis.push_back(newShop);
+
 		// crear EL RESTAURANT 
 
 		string TypeCuisine = "regional";
@@ -48,9 +50,15 @@ public:
 		coord.lat = 41.4933070;
 		coord.lon = 2.1453852;
 
-		newShop = new PuntInteresRestaurant(coord, name, TypeCuisine, wheelchair);
+		PuntInteresRestaurant* newRest = new PuntInteresRestaurant(coord, name, TypeCuisine, wheelchair);
+		pdis.push_back(newRest);
 	}
-	
-	void getCamins(std::vector<CamiBase*>&) {}
+
+	void getCamins(std::vector<CamiBase*>& camins) 
+	{
+		CamiSolucio* c = new CamiSolucio();
+
+		camins.push_back(c);
+	}
 	void parsejaXmlElements(std::vector<XmlElement>& xmlElements) {}
 };
