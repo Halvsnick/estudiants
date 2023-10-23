@@ -7,15 +7,21 @@
 #include "pch.h"
 #include <vector>
 #include "PuntInteresBotiga.h"
+#pragma once
 #include "PuntInteresRestaurant.h"
 #include "CamiSolució.h"
 #include "CamiBase.h"
+#include <vector>
+#include <string>
 
 using namespace std;
 
 class MapaSolucio : public MapaBase {
 private:
-
+	/////INICIO ESTRUCTURA DE GUARDAR XML/////////////
+	vector<PuntDeInteresBase*> m_puntsInteres;
+	vector<CamiBase*> m_camins;
+	/////////////////////////////////////
 	PuntInteresBotiga shop;
 	PuntInteresRestaurant restaurant;
 	Coordinate coord;
@@ -56,5 +62,27 @@ public:
 
 		camins.push_back(c);
 	}
-	void parsejaXmlElements(std::vector<XmlElement>& xmlElements) {}
+	void parsejaXmlElements(std::vector<XmlElement>& xmlElements) {
+		for (std::vector<XmlElement>::iterator it = xmlElements.begin(); it != xmlElements.end(); it++)
+		{
+			string lat;
+			string lon;
+			if ((*it).id_element == "node")
+			{
+				//Recorrido de los atributos, buscando coordenadas
+				for (int i = 0; i < (*it).atributs.size(); i++)
+				{
+					if ((*it).atributs[i].first == "lat")
+					{
+						lat = (*it).atributs[i].second;
+					}
+					if ((*it).atributs[i].first == "lon")
+					{
+						lon = (*it).atributs[i].second;
+					}
+				}
+				//Recorrido de los hijos, buscando
+			}
+		}
+	}
 };
