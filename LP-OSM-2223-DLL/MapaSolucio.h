@@ -26,14 +26,12 @@ public:
 	{
 		// crear LA BOTIGA 
 		string shopTag = "bakery";
-		string latitud = "41.4918606";
-		string longitud = "2.1465411";
 		std::string name = "La Millor Pastisseria";
 		bool wheelchair = true;
 
 		Coordinate coord;
-		coord.lat = 41.4933070;
-		coord.lon = 2.1453852;
+		coord.lat = 41.4918606;
+		coord.lon = 2.1465411;
 
 		PuntDeInteresBase* newShop = new PuntInteresBotiga(coord, name, shopTag, wheelchair);
 
@@ -42,13 +40,11 @@ public:
 		// crear EL RESTAURANT 
 
 		string TypeCuisine = "regional";
-		latitud = "41.4902204";
-		longitud = "2.1406477";
 		name = "El Millor Restaurant";
 		wheelchair = true;
 
-		coord.lat = 41.4933070;
-		coord.lon = 2.1453852;
+		coord.lat = 41.4902204;
+		coord.lon = 2.1406477;
 
 		PuntInteresRestaurant* newRest = new PuntInteresRestaurant(coord, name, TypeCuisine, wheelchair);
 		pdis.push_back(newRest);

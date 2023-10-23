@@ -34,7 +34,7 @@ public:
 		}
 	}
 
-	string getName() { return m_typeCuisine; }
+	string getName() { return PuntDeInteresBase::getName(); }
 
 private:
 	string m_typeCuisine;

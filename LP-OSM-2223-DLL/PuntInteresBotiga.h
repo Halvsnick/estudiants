@@ -38,7 +38,7 @@ public:
 		}
 	}
 
-	string getName() { return m_shopTag; }
+	string getName() { return PuntDeInteresBase::getName(); }
 
 private:
 	string m_shopTag;
