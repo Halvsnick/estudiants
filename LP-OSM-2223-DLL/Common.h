@@ -15,6 +15,18 @@ typedef struct {
     double lon;
 } Coordinate;
 
+struct MyHash {
+    std::size_t operator()(const std::pair<double, double>& p) const {
+        // Combina las funciones de hash de ambas componentes del par
+        std::hash<double> hashDouble;
+        std::size_t hash1 = hashDouble(p.first);
+        std::size_t hash2 = hashDouble(p.second);
+        // Combina las dos partes para obtener un solo valor hash
+        return hash1 ^ (hash2 << 1);
+    }
+};
+
+
 extern "C" typedef struct {
     int i;
     double lat;
