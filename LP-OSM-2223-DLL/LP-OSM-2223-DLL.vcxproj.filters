@@ -42,16 +42,16 @@
     <ClInclude Include="PuntDeInteresBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PuntInteresBotiga.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PuntInteresRestaurant.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="MapaSolucio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CamiSolució.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PuntInteresBotiga.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PuntInteresRestaurant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

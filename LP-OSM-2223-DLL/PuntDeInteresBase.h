@@ -12,6 +12,8 @@ class PuntDeInteresBase {
 	public:		
 		PuntDeInteresBase();
 		PuntDeInteresBase(Coordinate coord, std::string name);
+		
+
 
 		virtual std::string getName();
 		Coordinate getCoord();

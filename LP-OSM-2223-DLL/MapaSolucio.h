@@ -62,11 +62,19 @@ public:
 
 		camins.push_back(c);
 	}
+
+	//Falta buscar los caminos
 	void parsejaXmlElements(std::vector<XmlElement>& xmlElements) {
+		double lat;
+		double lon;
+		string cuisine;
+		string shop;
+		string name;
+		bool resBot; //Restaurant = true, Botiga = false
+		bool wheelchair;
 		for (std::vector<XmlElement>::iterator it = xmlElements.begin(); it != xmlElements.end(); it++)
 		{
-			string lat;
-			string lon;
+
 			if ((*it).id_element == "node")
 			{
 				//Recorrido de los atributos, buscando coordenadas
@@ -74,15 +82,79 @@ public:
 				{
 					if ((*it).atributs[i].first == "lat")
 					{
-						lat = (*it).atributs[i].second;
+						lat = stod((*it).atributs[i].second);
 					}
 					if ((*it).atributs[i].first == "lon")
 					{
-						lon = (*it).atributs[i].second;
+						lon = stod((*it).atributs[i].second);
 					}
 				}
 				//Recorrido de los hijos, buscando
+				for (int i = 0; i  < (*it).fills.size(); i++)
+				{
+					pair<string, string> valorTag = Util::kvDeTag((*it).fills[i].second);
+					if (valorTag.first == "amenity")
+					{
+						//Comprovando que sea restaurante
+						if (valorTag.second == "restaurant")
+						{
+							resBot = true;
+							
+						}
+						
+
+					}
+					//Comprovando que sea tienda y guardando el tipo
+					if (valorTag.first == "shop")
+					{
+						resBot = false;
+						shop = valorTag.second;
+					}
+					//Si Es restaurante, se cumplira. Buscamos los atributos de restaurante y los guardamos en variables
+					if(resBot)
+					{
+						if (valorTag.first == "cuisine")
+						{
+							cuisine = valorTag.second;
+						}
+						if (valorTag.first == "name")
+						{
+							name = valorTag.second;
+						}
+						if (valorTag.first == "wheelchair")
+						{
+							wheelchair = (valorTag.second == "yes") ? true : false;
+						}
+					}
+					if (!resBot)
+					{
+						
+						if (valorTag.first == "name")
+						{
+							name = valorTag.second;
+						}
+						if (valorTag.first == "wheelchair")
+						{
+							wheelchair = (valorTag.second == "yes") ? true : false;
+						}
+					}
+				}
 			}
+		}
+		Coordinate c;
+		c.lon = lon;
+		c.lat = lat;
+		if (resBot)
+		{
+			//Crear el punto de inters- restaurante y añadirlo al vector
+			PuntDeInteresBase* p = new PuntInteresRestaurant(c,name,cuisine,wheelchair);
+			m_puntsInteres.push_back(p);
+		}
+		else
+		{
+			//Crear el punto de interes - tienda y añadirlo al vector
+			PuntDeInteresBase* p = new PuntInteresBotiga(c, name, shop, wheelchair);
+			m_puntsInteres.push_back(p);
 		}
 	}
 };
