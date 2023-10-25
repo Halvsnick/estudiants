@@ -45,7 +45,8 @@ public:
 				int i = 0; 
 				bool T_lat = false;
 				bool T_lon = false;
-				while (i < WoPI.atributs.size() && ((!T_lon) || (!T_lat)))
+				bool T_Time = false;
+				while (i < WoPI.atributs.size() && ((!T_lon) || (!T_lat) || (!T_Time)))
 				{
 					if (WoPI.atributs[i].first == "lat")
 					{
@@ -56,6 +57,10 @@ public:
 					{
 						lon = std::stod(WoPI.atributs[i].second);
 						T_lon = true;
+					}
+					if (WoPI.atributs[i].first == "timestamp")
+					{
+						//bucle for per dins dels diferents timestamp i agafar el mes recent 
 					}
 					i++;
 				}
@@ -101,7 +106,7 @@ void MapaSolucio::getPdis(std::vector<PuntDeInteresBase*>& pdis)
 	bool wheelchair = false;
 
 	//Punts de interes
-	for (XmlElement& xmlElement : XmlElement)
+	for (XmlElement& xmlElement : VectorNodes)
 	{
 		if (xmlElement.id_element == "node")						//Check that it is of type node
 		{
@@ -143,7 +148,7 @@ void MapaSolucio::getPdis(std::vector<PuntDeInteresBase*>& pdis)
 
 		if (botiga)
 		{
-			PuntInteresBotiga* b = new PuntInteresBotiga({ lat, lon }, name, shopTag);
+			PuntInteresBotiga* b = new PuntInteresBotiga({ lat, lon }, name, shopTag, wheelchair);
 			m_pdisList.push_back(b);
 		}
 		else if (restaurant)
