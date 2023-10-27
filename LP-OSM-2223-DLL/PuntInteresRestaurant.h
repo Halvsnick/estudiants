@@ -21,6 +21,8 @@ public:
 		case 0:
 			if (m_typeCuisine == "chinese")
 				return 0xA6D9F7;
+			else
+				return PuntDeInteresBase::getColor();
 
 		case 1:
 			if (m_typeCuisine == "pizza")
@@ -28,9 +30,7 @@ public:
 			if (m_typeCuisine == "chinese")
 				return 0xA6D9F7;
 			else return 0x251351;
-
-		default:
-			return PuntDeInteresBase::getColor();
+			
 		}
 	}
 
