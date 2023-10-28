@@ -2,7 +2,7 @@
 #include "PuntInteresBotiga.h"
 #include "PuntInteresRestaurant.h"
 #include "CamiSolució.h"
-
+#include "Util.h"
 
 using namespace std;
 
@@ -48,10 +48,7 @@ public:
 				// Flags per detectar si s'han trobat atributs especifics
 				bool restaurant = false;		// Indica si es un restaurant
 				bool shop = false;				// Indica si es una botiga
-				bool highway = false;
-				bool publicTransport = false;
-				bool access = false;
-				bool entrance = false;
+				bool ignore = false;
 
 				// Iterar a traves dels elements secundaris (childs)
 				for (int i = 0; i < WoPI.fills.size(); i++)
@@ -62,21 +59,10 @@ public:
 						std::pair<std::string, std::string> valorTag = Util::kvDeTag(WoPI.fills[i].second);
 
 						// Comprovar si s'han trobat atributs rellevants
-						if (valorTag.first == "highway")
+						if (valorTag.first == "highway" || valorTag.first == "public_transport" ||
+							valorTag.first == "entrance" || valorTag.first == "access")
 						{
-							highway = true;
-						}
-						if (valorTag.first == "public_transport")
-						{
-							publicTransport = true;
-						}
-						if (valorTag.first == "entrance")
-						{
-							entrance = true;
-						}
-						if (valorTag.first == "access")
-						{
-							access = true;
+							ignore = true;
 						}
 						if (valorTag.first == "name")
 						{
@@ -91,10 +77,9 @@ public:
 							// Comprobar si el restaurant es accessible en cadira de rodes
 							wheelchair = (valorTag.second == "yes") ? true : false;
 						}
-						if (valorTag.first == "amenity")
+						if (valorTag.first == "amenity" && valorTag.second == "restaurant")
 						{
-							if (valorTag.second == "restaurant")
-								restaurant = true;
+							restaurant = true;
 						}
 						if (valorTag.first == "shop")
 						{
@@ -104,7 +89,7 @@ public:
 					}
 				}
 
-				if (!highway && !publicTransport && !entrance && !access)
+				if (!ignore)
 				{
 					// Verificar si s'han trobat tots els atributs necessaris per ser considerat un restaurant
 					if (restaurant && !name.empty())
@@ -128,6 +113,7 @@ public:
 			}
 		}
 	}
+};
 	/*
 	void parsejaXmlElements(std::vector<XmlElement>& xmlElements)
 	{
@@ -185,8 +171,6 @@ public:
 		}
 
 	}*/
-};
-
 
 //void MapaSolucio::getPdis(std::vector<PuntDeInteresBase*>& pdis)
 	//convertir el VectorNodes clase XmlElements a PuntdeInteresBase
