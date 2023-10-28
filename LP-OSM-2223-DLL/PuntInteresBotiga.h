@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//Tasca 3 crear Botiga
 
 class PuntInteresBotiga : public PuntDeInteresBase {
 public:

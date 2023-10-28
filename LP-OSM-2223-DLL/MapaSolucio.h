@@ -13,33 +13,28 @@
 #include <iostream>
 #include <unordered_map>
 
-
 using namespace std;
 
 class MapaSolucio : public MapaBase {
 private:
 
 	std::vector<PuntDeInteresBase*> m_pdisList;
-	std::vector<CamiBase*> m_wayList;
-	std::vector<XmlElement> VectorNodes;				//vector on guardar els nodes
-	//unordered_map<Coordinate, XmlElement> VectoresWoPI;		//tabla de hash per elimiar els repes
-	std::unordered_map<std::pair<double, double>, bool, MyHash> HashWoPI;
 
 public:
 
-	void getPdis(std::vector<PuntDeInteresBase*>& pdis);
+	void getPdis(std::vector<PuntDeInteresBase*>& pdis) {};
 
 	void getCamins(std::vector<CamiBase*>& camins)
 	{
-		CamiSolucio* c = new CamiSolucio();
+		CamiSolucio* NewWay = new CamiSolucio();
 	}
 	void parsejaXmlElements(std::vector<XmlElement>& xmlElements)
 	{
 		// Iterar a traves dels elements xmlElements
-		for (XmlElement& xml : xmlElements)
+		for (XmlElement& WoPI : xmlElements)  //WoPI = Way o Punt de Interes
 		{
 			// Comprovar si l'element es de tipus "node"
-			if (xml.id_element == "node")
+			if (WoPI.id_element == "node")
 			{
 				double lat = 0;
 				double lon = 0;
@@ -51,12 +46,12 @@ public:
 				bool wheelchair = false;
 
 				// Iterar a traves dels atributs de l'element "node"
-				for (int i = 0; i < xml.atributs.size(); i++)
+				for (int i = 0; i < WoPI.atributs.size(); i++)
 				{
-					if (xml.atributs[i].first == "lat")
-						lat = std::stod(xml.atributs[i].second);
-					if (xml.atributs[i].first == "lon")
-						lon = std::stod(xml.atributs[i].second);
+					if (WoPI.atributs[i].first == "lat")
+						lat = std::stod(WoPI.atributs[i].second);
+					if (WoPI.atributs[i].first == "lon")
+						lon = std::stod(WoPI.atributs[i].second);
 				}
 
 				// Flags per detectar si s'han trobat atributs especifics
@@ -68,12 +63,12 @@ public:
 				bool entrance = false;
 
 				// Iterar a traves dels elements secundaris (childs)
-				for (int i = 0; i < xml.fills.size(); i++)
+				for (int i = 0; i < WoPI.fills.size(); i++)
 				{
-					if (xml.fills[i].first == "tag")
+					if (WoPI.fills[i].first == "tag")
 					{
 						// Obtenir el par clau-valor de l'element tag
-						std::pair<std::string, std::string> valorTag = Util::kvDeTag(xml.fills[i].second);
+						std::pair<std::string, std::string> valorTag = Util::kvDeTag(WoPI.fills[i].second);
 
 						// Comprovar si s'han trobat atributs rellevants
 						if (valorTag.first == "highway")

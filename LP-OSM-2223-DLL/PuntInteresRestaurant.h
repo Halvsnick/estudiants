@@ -5,6 +5,8 @@
 
 using namespace std;
 
+//Tasca 3 crear Restaurant 
+
 class PuntInteresRestaurant : public PuntDeInteresBase {
 public:
 

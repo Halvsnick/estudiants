@@ -1,19 +1,4 @@
 #pragma once
-/*
-#include "Common.h"
-#include <vector>
-#include "CamiBase.h"
-
-using namespace std;
-
-
-class CamiSolucio : public CamiBase {
-public:
-    std::vector<Coordinate> getCamiCoords(int caminoSeleccionado); // Agafa les coordenades d'un camí específic
-    std::vector<std::string> getCamins();  // Agafa tots els camins
-};
-*/
-//////////////////////////////////////////////////////////////////////
 #include "Common.h"
 #include "CamiBase.h"
 #include <vector>
@@ -28,6 +13,7 @@ public:
     }
 };
 
+/* Tasca 4 crear cami definit 
 std::vector<Coordinate> CamiSolucio::getCamiCoords() {
     std::vector<Coordinate> coordenadas;
 
@@ -38,7 +24,7 @@ std::vector<Coordinate> CamiSolucio::getCamiCoords() {
     coordenadas.push_back({ 41.4939882, 2.1456419 });
 
     return coordenadas;
-}
+}*/
 
 
 /////////////////////////////////////////////////////////////////////////
