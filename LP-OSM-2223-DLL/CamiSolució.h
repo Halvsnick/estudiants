@@ -5,7 +5,7 @@
 
 class CamiSolucio : public CamiBase {
 public:
-    std::vector<Coordinate> getCamiCoords();
+    std::vector<Coordinate> getCamiCoords() ;
 
     void getCamins(std::vector<CamiBase*>& caminos) {
         // Crea una instancia de CamiSolucio y agrega el camino al vector
@@ -13,7 +13,8 @@ public:
     }
 };
 
-/* Tasca 4 crear cami definit 
+// Tasca 4 crear cami definit 
+
 std::vector<Coordinate> CamiSolucio::getCamiCoords() {
     std::vector<Coordinate> coordenadas;
 
@@ -24,7 +25,7 @@ std::vector<Coordinate> CamiSolucio::getCamiCoords() {
     coordenadas.push_back({ 41.4939882, 2.1456419 });
 
     return coordenadas;
-}*/
+}
 
 
 /////////////////////////////////////////////////////////////////////////

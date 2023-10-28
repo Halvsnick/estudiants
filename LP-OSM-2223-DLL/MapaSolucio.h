@@ -1,17 +1,8 @@
 #pragma once
-#include "MapaBase.h"
-#include "XML4OSMUtil.h"
-#include "PuntDeInteresBase.h"
-#include "Common.h"
-#include <string>
-#include "pch.h"
-#include <vector>
 #include "PuntInteresBotiga.h"
 #include "PuntInteresRestaurant.h"
 #include "CamiSolució.h"
-#include "CamiBase.h"
-#include <iostream>
-#include <unordered_map>
+
 
 using namespace std;
 
@@ -22,7 +13,7 @@ private:
 
 public:
 
-	void getPdis(std::vector<PuntDeInteresBase*>& pdis) {};
+	void getPdis(std::vector<PuntDeInteresBase*>& pdis) { pdis = m_pdisList; };
 
 	void getCamins(std::vector<CamiBase*>& camins)
 	{
@@ -197,8 +188,7 @@ public:
 };
 
 
-void MapaSolucio::getPdis(std::vector<PuntDeInteresBase*>& pdis)
-{
+//void MapaSolucio::getPdis(std::vector<PuntDeInteresBase*>& pdis)
 	//convertir el VectorNodes clase XmlElements a PuntdeInteresBase
 	/*double lat;
 	double lon;
@@ -263,9 +253,6 @@ void MapaSolucio::getPdis(std::vector<PuntDeInteresBase*>& pdis)
 			m_pdisList.push_back(r);
 		}
 	}*/
-	pdis = m_pdisList;
-
-}
 
 
 
