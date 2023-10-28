@@ -6,16 +6,16 @@
 
 using namespace std;
 
-class MapaSolucio : public MapaBase {
+class MapaSolucio : public MapaBase {													//MapaSolucio derivada de MapaBase
 private:
 
-	std::vector<PuntDeInteresBase*> m_pdisList;
+	std::vector<PuntDeInteresBase*> m_WoPI;												//vector amb tots els punts de interes
 
 public:
 
-	void getPdis(std::vector<PuntDeInteresBase*>& pdis) { pdis = m_pdisList; };
+	void getPdis(std::vector<PuntDeInteresBase*>& WoPI) { WoPI = m_WoPI; };				//retorna els punts 
 
-	void getCamins(std::vector<CamiBase*>& camins)
+	void getCamins(std::vector<CamiBase*>& Ways)
 	{
 		CamiSolucio* NewWay = new CamiSolucio();
 	}
@@ -110,19 +110,19 @@ public:
 					if (restaurant && !name.empty())
 					{
 						// Afegir a la lista de restaurants
-						m_pdisList.push_back(new PuntInteresRestaurant({ lat, lon }, name, cuisine, wheelchair));
+						m_WoPI.push_back(new PuntInteresRestaurant({ lat, lon }, name, cuisine, wheelchair));
 					}
 					// Verificar si s'han trobat tots els atributs necessaris per ser considerat una botiga
 					if (shop && !name.empty())
 					{
 						// Afegir a la lista de botigues
-						m_pdisList.push_back(new PuntInteresBotiga({ lat, lon }, name, shopTag, wheelchair));
+						m_WoPI.push_back(new PuntInteresBotiga({ lat, lon }, name, shopTag, wheelchair));
 					}
 					// Verificar si s'han trobat tots els atributs necessaris per ser considerat un punt d'interes
 					if (!shop && !restaurant && !name.empty())
 					{
 						// Afegir a la lista de punts d'interes
-						m_pdisList.push_back(new PuntDeInteresBase({ lat, lon }, name));
+						m_WoPI.push_back(new PuntDeInteresBase({ lat, lon }, name));
 					}
 				}
 			}
