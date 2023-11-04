@@ -3,18 +3,20 @@
 #include "CamiBase.h"
 #include <vector>
 
+using namespace std;
+
 class CamiSolucio : public CamiBase {
 public:
-    std::vector<Coordinate> getCamiCoords() ;
+    CamiSolucio() {};
+    CamiSolucio(vector<Coordinate>& Coord) {m_ways = Coord; };
+    vector<Coordinate> getCamiCoords() { return m_ways; };
 
-    void getCamins(std::vector<CamiBase*>& caminos) {
-        // Crea una instancia de CamiSolucio y agrega el camino al vector
-        caminos.push_back(new CamiSolucio());
-    }
+private:
+    vector<Coordinate> m_ways; 
 };
 
 // Tasca 4 crear cami definit 
-
+/*
 std::vector<Coordinate> CamiSolucio::getCamiCoords() {
     std::vector<Coordinate> coordenadas;
 
@@ -26,63 +28,4 @@ std::vector<Coordinate> CamiSolucio::getCamiCoords() {
 
     return coordenadas;
 }
-
-
-/////////////////////////////////////////////////////////////////////////
-
-
-/*
-std::vector<Coordinate> CamiSolucio::getCamiCoords(int caminoSeleccionado) {
-    std::vector<Coordinate> coordenadas;
-
-    // Por ejemplo, si caminoSeleccionado es 0, procesaríamos el primer camino en xmlElements.
-    if (caminoSeleccionado >= 0 && caminoSeleccionado < XmlElement.size()) {
-        const XmlElement& elemento = XmlElement[caminoSeleccionado];
-
-        for (const auto& atributo : elemento.atributs) {
-            if (atributo.first == "lat") {
-                double lat = std::stod(atributo.second);
-                double lon = 0.0; 
-                for (const auto& atributoLon : elemento.atributs) {
-                    if (atributoLon.first == "lon") {
-                        lon = std::stod(atributoLon.second);
-                        break;
-                    }
-                }
-                coordenadas.push_back({ lat, lon });
-            }
-        }
-    }
-
-    return coordenadas;
-}
-
-std::vector<std::vector<Coordinate>> CamiSolucio::getCamins() {
-    std::vector<std::vector<Coordinate>> caminos;
-
-    for (const auto& elemento : XmlElement) {
-        std::vector<Coordinate> coordenadas;
-
-        for (const auto& atributo : elemento.atributs) {
-            if (atributo.first == "lat") {
-                double lat = std::stod(atributo.second);
-                double lon = 0.0;
-                for (const auto& atributoLon : elemento.atributs) {
-                    if (atributoLon.first == "lon") {
-                        lon = std::stod(atributoLon.second);
-                        break;
-                    }
-                }
-                coordenadas.push_back({ lat, lon });
-            }
-        }
-
-        if (!coordenadas.empty()) {
-            caminos.push_back(coordenadas);
-        }
-    }
-
-    return caminos;
-}
 */
-
