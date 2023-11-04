@@ -24,7 +24,7 @@ public:
 		{
 		case 1:
 			if (m_shopTag == "bakery")
-				if (m_openHour.find("“06:00-22:00") != string::npos)
+				if (m_openHour.find("06:00-22:00") != string::npos)
 					return 0x4CB944;
 				else
 					return 0xE85D75; 
