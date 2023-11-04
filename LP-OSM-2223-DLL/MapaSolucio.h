@@ -9,18 +9,37 @@ using namespace std;
 class MapaSolucio : public MapaBase {													//MapaSolucio derivada de MapaBase
 private:
 
-	std::vector<PuntDeInteresBase*> m_WoPI;												//vector amb tots els punts de interes
+	vector<PuntDeInteresBase*> m_WoPI;
+	vector<CamiBase*> m_Ways;
+	vector<string> m_Punts_id;
 
 public:
 
-	void getPdis(std::vector<PuntDeInteresBase*>& WoPI) { WoPI = m_WoPI; };				//retorna els punts 
+	void getPdis(vector<PuntDeInteresBase*>& PuntsInteres)
+	{ 
+		PuntsInteres.clear();  //neteja el vector
+		
+		for (auto it = m_WoPI.begin(); it < m_WoPI.end(); it++)
+		{
+			if (!(*it)->getName().empty() && (*it)->getName() != "isatrap"
+				&& (*it)->getName() != "itsatrap")
+			//si cumpleix totes les condicions anteriors l'afegim
+				PuntsInteres.push_back((*it)); 
+		}
+	};				
 
 	void getCamins(std::vector<CamiBase*>& Ways)
 	{
-		CamiSolucio* NewWay = new CamiSolucio();
+		//contingut de m_ways a ways
+		Ways = m_Ways; 
 	}
 	void parsejaXmlElements(std::vector<XmlElement>& xmlElements)
 	{
+		//netejar perque caronte acepti
+		m_WoPI.clear();
+		m_Ways.clear();
+		m_Punts_id.clear();
+
 		// Iterar a traves dels elements xmlElements
 		for (XmlElement& WoPI : xmlElements)  //WoPI = Way o Punt de Interes
 		{
@@ -30,25 +49,27 @@ public:
 				double lat = 0;
 				double lon = 0;
 
-				std::string name = "";
-				std::string cuisine = "";
-				std::string shopTag;
-
-				bool wheelchair = false;
+				string id = "";
 
 				// Iterar a traves dels atributs de l'element "node"
 				for (int i = 0; i < WoPI.atributs.size(); i++)
 				{
+					if (WoPI.atributs[i].first == "id")
+						id = WoPI.atributs[i].second;
 					if (WoPI.atributs[i].first == "lat")
-						lat = std::stod(WoPI.atributs[i].second);
+						lat = stod(WoPI.atributs[i].second);
 					if (WoPI.atributs[i].first == "lon")
-						lon = std::stod(WoPI.atributs[i].second);
+						lon = stod(WoPI.atributs[i].second);
 				}
 
-				// Flags per detectar si s'han trobat atributs especifics
+				
 				bool restaurant = false;		// Indica si es un restaurant
 				bool shop = false;				// Indica si es una botiga
-				bool ignore = false;
+				bool wheelchair = false;
+				string name;
+				string shopTag;
+				string typeCuisine;
+				string openHour;
 
 				// Iterar a traves dels elements secundaris (childs)
 				for (int i = 0; i < WoPI.fills.size(); i++)
@@ -56,31 +77,21 @@ public:
 					if (WoPI.fills[i].first == "tag")
 					{
 						// Obtenir el par clau-valor de l'element tag
-						std::pair<std::string, std::string> valorTag = Util::kvDeTag(WoPI.fills[i].second);
+						pair<string, string> valorTag = Util::kvDeTag(WoPI.fills[i].second);
 
-						// Comprovar si s'han trobat atributs rellevants
-						if (valorTag.first == "highway" || valorTag.first == "public_transport" ||
-							valorTag.first == "entrance" || valorTag.first == "access")
-						{
-							ignore = true;
-						}
 						if (valorTag.first == "name")
-						{
 							name = valorTag.second;
-						}
+
 						if (valorTag.first == "cuisine")
-						{
-							cuisine = valorTag.second;
-						}
+							typeCuisine = valorTag.second;
+						
 						if (valorTag.first == "wheelchair")
-						{
 							// Comprobar si el restaurant es accessible en cadira de rodes
 							wheelchair = (valorTag.second == "yes") ? true : false;
-						}
+						
 						if (valorTag.first == "amenity" && valorTag.second == "restaurant")
-						{
 							restaurant = true;
-						}
+						
 						if (valorTag.first == "shop")
 						{
 							shopTag = valorTag.second;
@@ -88,159 +99,60 @@ public:
 						}
 					}
 				}
+				//guardar id del node
+				m_Punts_id.push_back(id);
 
-				if (!ignore)
+				if (restaurant)
+					// Afegir a la lista de restaurants
+					m_WoPI.push_back(new PuntInteresRestaurant({ lat, lon }, name, typeCuisine, wheelchair));
+				
+				if(shop)
+					// Afegir a la lista de botigues
+					m_WoPI.push_back(new PuntInteresBotiga({ lat, lon }, name, shopTag, wheelchair));
+
+				if (!restaurant && !shop)
+					m_WoPI.push_back(new PuntDeInteresBase({ lat, lon }, name));
+			
+			
+			}else
+				if (WoPI.id_element == "way")
 				{
-					// Verificar si s'han trobat tots els atributs necessaris per ser considerat un restaurant
-					if (restaurant && !name.empty())
+					vector<PuntDeInteresBase*> Nodes_relacionats;
+					for (int i = 0; i < WoPI.fills.size(); i++)
 					{
-						// Afegir a la lista de restaurants
-						m_WoPI.push_back(new PuntInteresRestaurant({ lat, lon }, name, cuisine, wheelchair));
+						if (WoPI.fills[i].first == "nd")
+						{
+							for (int j = 0; j < m_Punts_id.size(); j++)
+							{
+								if (m_Punts_id[j] == WoPI.fills[i].second[0].second)
+								{
+									// Afegim el node relacionat al vector nd
+									Nodes_relacionats.push_back(m_WoPI[j]);
+									break; 
+								}
+							}
+						}else
+							if (WoPI.fills[i].first == "tag")
+							{
+								vector<Coordinate> Coords;
+								pair<string,string> valorTag = Util::kvDeTag(WoPI.fills[i].second);
+								
+								if (valorTag.first == "highway")
+								{
+									//recorem els nodes relacionats
+									for (auto aux = Nodes_relacionats.begin(); aux != Nodes_relacionats.end(); aux++)
+										Coords.push_back((*aux)->getCoord());
+
+									CamiSolucio* way = new CamiSolucio(Coords);
+
+									m_Ways.push_back(way);
+								}
+							
+							}
 					}
-					// Verificar si s'han trobat tots els atributs necessaris per ser considerat una botiga
-					if (shop && !name.empty())
-					{
-						// Afegir a la lista de botigues
-						m_WoPI.push_back(new PuntInteresBotiga({ lat, lon }, name, shopTag, wheelchair));
-					}
-					// Verificar si s'han trobat tots els atributs necessaris per ser considerat un punt d'interes
-					if (!shop && !restaurant && !name.empty())
-					{
-						// Afegir a la lista de punts d'interes
-						m_WoPI.push_back(new PuntDeInteresBase({ lat, lon }, name));
-					}
+
 				}
-			}
 		}
 	}
 };
-	/*
-	void parsejaXmlElements(std::vector<XmlElement>& xmlElements)
-	{
-		double lat;
-		double lon;
-
-		for (XmlElement& WoPI : xmlElements)				 //WoPI = Ways o Punts de Interes
-		{
-			if (WoPI.id_element == "node")
-			{
-				int i = 0;
-				bool T_lat = false;
-				bool T_lon = false;
-				bool T_Time = false;
-				while (i < WoPI.atributs.size() && ((!T_lon) || (!T_lat) || (!T_Time)))
-				{
-					if (WoPI.atributs[i].first == "lat")
-					{
-						lat = std::stod(WoPI.atributs[i].second);
-						T_lat = true;
-					}
-					if (WoPI.atributs[i].first == "lon")
-					{
-						lon = std::stod(WoPI.atributs[i].second);
-						T_lon = true;
-					}
-					if (WoPI.atributs[i].first == "timestamp")
-					{
-						//bucle for per dins dels diferents timestamp i agafar el mes recent
-					}
-					i++;
-				}
-				if (HashWoPI.find({ lat, lon }) == HashWoPI.end())   //WoPI no agregado => lo agrego
-				{
-					// Marcar esta coordenada como vista
-					HashWoPI[{lat, lon}] = true;
-				}
-				else
-				{
-					for (auto it = VectorNodes.begin(); it != VectorNodes.end();)
-					{
-						const XmlElement& WoPI = *it;
-
-						if (HashWoPI.find({ lat, lon }) != HashWoPI.end())
-							it = VectorNodes.erase(it); // WoPI ya existe en VectoresWoPI, entonces lo eliminamos de VectorNodes
-						else
-							++it;
-							// WoPI no existe en VectoresWoPI, continuamos con el siguiente elemento
-					}
-				}
-				// Agregar el elemento a VectorNodes
-				VectorNodes.push_back(WoPI);
-			}
-
-		}
-
-	}*/
-
-//void MapaSolucio::getPdis(std::vector<PuntDeInteresBase*>& pdis)
-	//convertir el VectorNodes clase XmlElements a PuntdeInteresBase
-	/*double lat;
-	double lon;
-
-	std::string shopTag = "";
-	std::string cuisine = "";
-	std::string name = "";
-
-	bool botiga = false;
-	bool restaurant = false;
-	bool wheelchair = false;
-
-	//Punts de interes
-	for (XmlElement& xmlElement : VectorNodes)
-	{
-		if (xmlElement.id_element == "node")						//Check that it is of type node
-		{
-			//Iterate through attributes
-			for (int i = 0; i < xmlElement.atributs.size(); i++)
-			{
-				if (xmlElement.atributs[i].first == "lat")			//Latitud
-					lat = std::stod(xmlElement.atributs[i].second);
-				if (xmlElement.atributs[i].first == "lon")			//Longitude
-					lon = std::stod(xmlElement.atributs[i].second);
-			}
-
-			//Iterate through childs
-			for (int i = 0; i < xmlElement.fills.size(); i++)
-			{
-				if (xmlElement.fills[i].first == "tag")
-				{
-					std::pair<std::string, std::string> valorTag = Util::kvDeTag(xmlElement.fills[i].second);
-					if (valorTag.first == "shop")					//Shop tag
-					{
-						botiga = true;
-						shopTag = valorTag.second;
-					}
-					if (valorTag.first == "amenity")				//Amenity
-					{
-						if (valorTag.second == "restaurant")		//Check that it is of type restaurant
-							restaurant = true;
-					}
-					if (valorTag.first == "name")					//Name
-						name = valorTag.second;
-					if (valorTag.first == "wheelchair")				//Wheelchair
-						wheelchair = (valorTag.second == "yes") ? true : false;
-					if (valorTag.first == "cuisine")				//Cuisine
-						cuisine = valorTag.second;
-				}
-
-			}
-		}
-
-		if (botiga)
-		{
-			PuntInteresBotiga* b = new PuntInteresBotiga({ lat, lon }, name, shopTag, wheelchair);
-			m_pdisList.push_back(b);
-		}
-		else if (restaurant)
-		{
-			PuntInteresRestaurant* r = new PuntInteresRestaurant({ lat, lon }, name, cuisine, wheelchair);
-			m_pdisList.push_back(r);
-		}
-	}*/
-
-
-
-
-
-
 
