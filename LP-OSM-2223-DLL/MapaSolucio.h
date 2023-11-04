@@ -108,7 +108,7 @@ public:
 				
 				if(shop)
 					// Afegir a la lista de botigues
-					m_WoPI.push_back(new PuntInteresBotiga({ lat, lon }, name, shopTag, wheelchair));
+					m_WoPI.push_back(new PuntInteresBotiga({ lat, lon }, name, shopTag, openHour,wheelchair));
 
 				if (!restaurant && !shop)
 					m_WoPI.push_back(new PuntDeInteresBase({ lat, lon }, name));
