@@ -10,11 +10,13 @@ using namespace std;
 class PuntInteresBotiga : public PuntDeInteresBase {
 public:
 
-	PuntInteresBotiga() : m_shopTag(""), m_wheelchair(false) {}; 
+	PuntInteresBotiga() : m_shopTag(""), m_openHour(""), m_wheelchair(false) {};
 
 	//contructor per parametres
-	PuntInteresBotiga(Coordinate coord, string name, const string& shopTag, bool wheelchair) :
-		PuntDeInteresBase(coord, name) { m_shopTag = shopTag; m_wheelchair = wheelchair;};
+	PuntInteresBotiga(Coordinate coord, string name, const string& shopTag, 
+						const string& openHour, bool wheelchair) :
+		PuntDeInteresBase(coord, name) { m_shopTag = shopTag; m_openHour = openHour;
+										m_wheelchair = wheelchair;};
 	
 	unsigned int getColor()
 	{
@@ -22,8 +24,7 @@ public:
 		{
 		case 1:
 			if (m_shopTag == "bakery")
-				if (getName().find("“Div 06:00-22:00") != string::npos
-					|| getName().find("Dill 06:00-22:00") != string::npos)
+				if (m_openHour.find("“06:00-22:00") != string::npos)
 					return 0x4CB944;
 				else
 					return 0xE85D75; 
@@ -44,6 +45,7 @@ public:
 private:
 	string m_shopTag;
 	bool m_wheelchair;
+	string m_openHour;
 };
 
 
