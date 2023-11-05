@@ -84,6 +84,9 @@ public:
 
 						if (valorTag.first == "cuisine")
 							typeCuisine = valorTag.second;
+
+						if (valorTag.first == "opening_hours")
+							openHour = valorTag.second;
 						
 						if (valorTag.first == "wheelchair")
 							// Comprobar si el restaurant es accessible en cadira de rodes
